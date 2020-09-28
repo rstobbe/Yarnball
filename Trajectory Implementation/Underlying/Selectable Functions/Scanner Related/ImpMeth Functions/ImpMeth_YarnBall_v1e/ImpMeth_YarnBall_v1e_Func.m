@@ -100,6 +100,15 @@ end
 clear INPUT;
 
 %------------------------------------------
+% Test DE solution timing
+%------------------------------------------
+if not(strcmp(DESOL.RADEV.constevol,'Yes'))
+    err.flag = 1;
+    err.msg = 'The ''DeSolTimfunc'' is for design and testing and not implementation';
+    return
+end
+
+%------------------------------------------
 % Do ImpType Things
 %------------------------------------------
 func = str2func([IMPTYPE.method,'_Func']);     

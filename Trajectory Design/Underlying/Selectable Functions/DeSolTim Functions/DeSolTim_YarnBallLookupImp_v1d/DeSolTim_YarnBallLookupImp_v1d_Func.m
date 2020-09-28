@@ -2,7 +2,7 @@
 % 
 %====================================================
 
-function [DESOL,err] = DeSolTim_YarnBallLookupDesignTest_v1d_Func(DESOL,INPUT)
+function [DESOL,err] = DeSolTim_YarnBallLookupImp_v1d_Func(DESOL,INPUT)
 
 Status2('busy','Determine Solution Timing',2);
 Status2('done','',3);
@@ -16,6 +16,12 @@ err.msg = '';
 PROJdgn = INPUT.PROJdgn;
 courseadjust = INPUT.courseadjust;
 DESTYPE = INPUT.DESTYPE;
+if not(isfield(INPUT,'TST'))
+    err.flag = 1;
+    err.msg = 'This DeSolTim function intended for trajectory implementation';
+    return
+end
+TST = INPUT.TST;
 RADEV = DESOL.RADEV;
 clear INPUT;
 
@@ -115,7 +121,7 @@ tau2 = tau(SlvZero:SlvEnd);                                 % will solve a tiny 
 %------------------------------------------
 % Visualize
 %------------------------------------------
-if strcmp(DESOL.Vis,'Yes')
+if strcmp(TST.DESOL.Vis,'Yes')
 	figure(92); hold on; plot(tau(1:SlvEnd),'b-');
 	plot(SlvZero,tau(SlvZero),'r*');
 	xlabel('sample point'); ylabel('tau'); title('Timing Vector');    
@@ -146,7 +152,6 @@ DESOL.tautot = tautot;
 DESOL.len = length(tau1)+length(tau2);
 DESOL.plin = plin;
 DESOL.plout = plout;
-DESOL.projlen0 = projlen0;
 DESOL.T = T;
 DESOL.PanelOutput = struct();
 

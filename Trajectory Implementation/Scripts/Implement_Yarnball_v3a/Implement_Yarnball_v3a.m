@@ -3,7 +3,7 @@
 %   - Drop array of sub-calls
 %=========================================================
 
-function [SCRPTipt,SCRPTGBL,err] = Implement_Proj3D_v3a(SCRPTipt,SCRPTGBL)
+function [SCRPTipt,SCRPTGBL,err] = Implement_Yarnball_v3a(SCRPTipt,SCRPTGBL)
 
 Status('busy','Implement Trajectory Design');
 Status2('done','',2);

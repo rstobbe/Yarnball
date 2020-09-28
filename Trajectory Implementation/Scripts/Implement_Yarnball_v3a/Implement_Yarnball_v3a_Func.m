@@ -2,7 +2,7 @@
 % 
 %=========================================================
 
-function [IMP,err] = Implement_Proj3D_v3a_Func(INPUT,IMP)
+function [IMP,err] = Implement_Yarnball_v3a_Func(INPUT,IMP)
 
 Status('busy','Implement Trajectory Design');
 Status2('done','',2);

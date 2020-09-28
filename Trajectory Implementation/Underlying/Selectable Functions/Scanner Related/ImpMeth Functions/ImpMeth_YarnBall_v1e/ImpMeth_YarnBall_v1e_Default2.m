@@ -18,7 +18,7 @@ elseif strcmp(filesep,'/')
 end
 ORNTfunc = 'OrientFlexible_v1d'; 
 imptypefunc = 'ImpType_YarnBallOutSingleEcho_v1d';
-DEsoltimfunc = 'DeSolTim_YarnBallLookupBrainT1_v1e';
+DEsoltimfunc = 'DeSolTim_YarnBallLookupImp_v1d';
 solfinefunc = 'SolFineTest_YarnBall_v1b';
 timadjfunc = 'TimingAdjust_QuadCastImpProfile_v1e';
 TrajEndfunc = 'TrajEnd_StandardSpoil_v1e';

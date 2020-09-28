@@ -48,19 +48,25 @@ if dir == 1
             narray = (m-1)*divs+1:length(phi0);
         end
         Status2('busy',['Generate Trajectory Number: ',num2str(narray(end))],2);
-        parfor n = narray 
-            [x,Y] = ode113(defuncIn,tau1,[rad0,phi0(n),theta0(n)],options); 
-            rad1 = Y(:,1).';  
-            phi1 = Y(:,2).'; 
-            theta1 = Y(:,3).';
-            [x,Y] = ode113(defuncOut,tau2,[rad0,phi0(n),theta0(n)],options);
-            EndVals(n,:) = Y(end,:);
-            rad = [0 flip(rad1,2) Y(2:end,1).'];
-            phi = [0 flip(phi1,2) Y(2:end,2).']; 
-            theta = [0 flip(theta1,2) Y(2:end,3).'];
-            kArrX(n,:) = rad.*sin(phi).*cos(theta);                              
-            kArrY(n,:) = rad.*sin(phi).*sin(theta);
-            kArrZ(n,:) = rad.*cos(phi); 
+        try
+            parfor n = narray 
+                [x,Y] = ode113(defuncIn,tau1,[rad0,phi0(n),theta0(n)],options); 
+                rad1 = Y(:,1).';  
+                phi1 = Y(:,2).'; 
+                theta1 = Y(:,3).';
+                [x,Y] = ode113(defuncOut,tau2,[rad0,phi0(n),theta0(n)],options);
+                EndVals(n,:) = Y(end,:);
+                rad = [0 flip(rad1,2) Y(2:end,1).'];
+                phi = [0 flip(phi1,2) Y(2:end,2).']; 
+                theta = [0 flip(theta1,2) Y(2:end,3).'];
+                kArrX(n,:) = rad.*sin(phi).*cos(theta);                              
+                kArrY(n,:) = rad.*sin(phi).*sin(theta);
+                kArrZ(n,:) = rad.*cos(phi); 
+            end
+        catch
+            err.flag = 1;
+            err.msg = 'Check ''DeSolTimfunc''';
+            return
         end
     end
     

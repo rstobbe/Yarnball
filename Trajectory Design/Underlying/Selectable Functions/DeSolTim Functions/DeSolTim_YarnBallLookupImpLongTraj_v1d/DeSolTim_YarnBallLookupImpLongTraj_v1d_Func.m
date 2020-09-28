@@ -2,7 +2,7 @@
 % 
 %====================================================
 
-function [DESOL,err] = DeSolTim_YarnBallLookupDesignTest_v1d_Func(DESOL,INPUT)
+function [DESOL,err] = DeSolTim_YarnBallLookupImpLongTraj_v1d_Func(DESOL,INPUT)
 
 Status2('busy','Determine Solution Timing',2);
 Status2('done','',3);
@@ -16,6 +16,12 @@ err.msg = '';
 PROJdgn = INPUT.PROJdgn;
 courseadjust = INPUT.courseadjust;
 DESTYPE = INPUT.DESTYPE;
+if not(isfield(INPUT,'TST'))
+    err.flag = 1;
+    err.msg = 'This DeSolTim function intended for trajectory implementation';
+    return
+end
+TST = INPUT.TST;
 RADEV = DESOL.RADEV;
 clear INPUT;
 
@@ -67,7 +73,7 @@ end
 % Inside Points
 %------------------------------------------
 Nin = Nin0;
-tMax = 1e6;                                             % doesn't really matter just set sufficiently big
+tMax = 3e6;                                             % doesn't really matter just set sufficiently big
 t = (0:tMax); 
 tau = -plin + plin/Nin*t + exp(T*(t-Nin)) - exp(-T*Nin);
 while true
@@ -89,9 +95,7 @@ end
 tau = -plin + plin/Nin*t + exp(T*(t-Nin)) - exp(-T*Nin);
 ind = find(tau > plout,1);
 if isempty(ind)
-    err.flag = 1;
-    err.msg = 'Try alternative ''DeSolTim'' function';
-    return
+    error
 end
 
 ind1 = find(tau <= 0,1,'last');  
@@ -115,10 +119,10 @@ tau2 = tau(SlvZero:SlvEnd);                                 % will solve a tiny 
 %------------------------------------------
 % Visualize
 %------------------------------------------
-if strcmp(DESOL.Vis,'Yes')
-	figure(92); hold on; plot(tau(1:SlvEnd),'b-');
-	plot(SlvZero,tau(SlvZero),'r*');
-	xlabel('sample point'); ylabel('tau'); title('Timing Vector');    
+if strcmp(TST.DESOL.Vis,'Yes')
+    figure(92); hold on; plot(tau(1:SlvEnd),'b-');
+    plot(SlvZero,tau(SlvZero),'r*');
+    xlabel('sample point'); ylabel('tau'); title('Timing Vector');    
 end
 
 %------------------------------------------
@@ -248,5 +252,4 @@ Nin = 4000 - 6000*plin;
 if Nin < 1500
     Nin = 2000;
 end
-OutShape = (0.23 - 0.005*plout)*1e-3;
-
+OutShape = 1e-4;
