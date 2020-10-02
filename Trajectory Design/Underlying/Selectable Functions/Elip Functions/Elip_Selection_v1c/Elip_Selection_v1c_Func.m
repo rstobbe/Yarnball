@@ -17,6 +17,15 @@ PROJdgn = INPUT.PROJdgn;
 clear INPUT
 
 %---------------------------------------------
+% Test
+%---------------------------------------------
+if ELIP.voxelstretch < 1
+    err.flag = 1;
+    err.msg = '''VoxelStretch'' must be > 1';
+    return
+end
+
+%---------------------------------------------
 % Return Elip
 %---------------------------------------------
 OutDim = round(100*PROJdgn.vox*ELIP.voxelstretch)/100;

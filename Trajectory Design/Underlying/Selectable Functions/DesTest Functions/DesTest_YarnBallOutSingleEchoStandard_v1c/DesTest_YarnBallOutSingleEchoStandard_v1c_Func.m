@@ -52,7 +52,7 @@ if strcmp(func,'TestPlot')
     plot(T0,KSA(:,3),'r','linewidth',1);
     xlim([0 T0(end)]);
     ylim([-1 1]);
-    xlabel('ms'); ylabel('Relative k-Space'); title('Trajectory Evolution (Pre AccConst)');
+    xlabel('ms'); ylabel('Relative k-Space'); title('Trajectory Evolution (PreAccConst)');
 
 end
 

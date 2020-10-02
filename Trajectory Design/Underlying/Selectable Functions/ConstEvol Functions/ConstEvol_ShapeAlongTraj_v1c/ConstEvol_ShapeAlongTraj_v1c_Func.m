@@ -145,7 +145,7 @@ if strcmp(TST.CACC.Vis,'ProfOnly') && strcmp(ProfileTest,'Yes')
     end
     if test == 1
         button = questdlg('Continue');
-        if strcmp(button,'No')
+        if not(strcmp(button,'Yes'))
             err.flag = 4;
             err.msg = '';
             return

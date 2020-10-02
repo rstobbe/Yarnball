@@ -7,15 +7,15 @@ function [CLR,err] = Colour_Gold_v1h_Func(CLR,INPUT)
 err.flag = 0;
 err.msg = '';
 
-CLR.ybcolourin = @GreenYarnIn;
-CLR.ybcolourout = @GreenYarnOut;
+CLR.ybcolourin = @GoldYarnIn;
+CLR.ybcolourout = @GoldYarnOut;
 CLR.radevin = @RadEvIn;
 CLR.radevout = @RadEvOut;
 
 %====================================================
-% Green Yarn In
+% Gold Yarn In
 %====================================================
-function dy = GreenYarnIn(t,y,INPUT)  
+function dy = GoldYarnIn(t,y,INPUT)  
 
 turnradfunc = INPUT.turnradfunc;
 turnspinfunc = INPUT.turnspinfunc;
@@ -39,9 +39,9 @@ dphi = 2*(sphi(r)*pi*rad*r)*dtheta;
 dy = [dr;dphi;dtheta];
 
 %====================================================
-% Green Yarn Out
+% Gold Yarn Out
 %====================================================
-function dy = GreenYarnOut(t,y,INPUT)  
+function dy = GoldYarnOut(t,y,INPUT)  
 
 turnradfunc = INPUT.turnradfunc;
 turnspinfunc = INPUT.turnspinfunc;

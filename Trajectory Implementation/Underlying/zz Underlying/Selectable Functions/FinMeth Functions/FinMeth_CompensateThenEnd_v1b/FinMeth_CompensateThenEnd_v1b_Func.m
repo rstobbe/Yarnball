@@ -2,7 +2,7 @@
 % 
 %====================================================
 
-function [FINMETH,err] = FinMeth_ConstrainThenEnd_v1b_Func(FINMETH,INPUT)
+function [FINMETH,err] = FinMeth_CompensateThenEnd_v1b_Func(FINMETH,INPUT)
 
 Status2('busy','Finish Trajectory',2);
 Status2('done','',3);

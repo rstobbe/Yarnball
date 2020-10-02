@@ -16,6 +16,11 @@ err.msg = '';
 PROJdgn = INPUT.PROJdgn;
 GENPRJ = INPUT.GENPRJ;
 DESTYPE = INPUT.DESTYPE;
+if not(isfield(INPUT,'IMPTYPE'))
+    err.flag = 1;
+    err.msg = 'This ''TimingAdjustfunc'' is not for trajectory design';
+    return
+end
 IMPTYPE = INPUT.IMPTYPE;
 DESOL = INPUT.DESOL;
 CLR = INPUT.CLR;

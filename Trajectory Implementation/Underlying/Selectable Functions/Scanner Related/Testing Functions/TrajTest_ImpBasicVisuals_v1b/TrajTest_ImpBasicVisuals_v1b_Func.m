@@ -11,7 +11,7 @@ TST.testing = 'No';
 TST.timecast = 'QuadCast';
 
 TST.DESOL.Vis = 'No';
-TST.CACC.Vis = 'No';
+TST.CACC.Vis = 'ProfOnly';
 TST.SYSRESP.Vis = 'No';
 TST.SOLFINTEST.Vis = 'No';
 TST.IMPTYPE.Vis = 'No';

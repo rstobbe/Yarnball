@@ -16,6 +16,11 @@ err.msg = '';
 PROJdgn = INPUT.PROJdgn;
 courseadjust = INPUT.courseadjust;
 DESTYPE = INPUT.DESTYPE;
+if isfield(INPUT,'TST')
+    err.flag = 1;
+    err.msg = 'This DeSolTim function intended for trajectory design';
+    return
+end
 RADEV = DESOL.RADEV;
 clear INPUT;
 
