@@ -122,8 +122,9 @@ TSMP.minextraptsProt = minextraptsProt;
 % Panel Output
 %--------------------------------------------- 
 Panel(1,:) = {'dwell (ms)',TSMP.dwell,'Output'};
-Panel(2,:) = {'trajosamp',TSMP.trajosamp,'Output'};
+Panel(2,:) = {'bandpassosamp',TSMP.trajosamp/TSMP.sysoversamp,'Output'};
 Panel(3,:) = {'sysosamp (Siemens)',TSMP.sysoversamp,'Output'};
+Panel(4,:) = {'fullosamp',TSMP.trajosamp,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 TSMP.Panel = Panel;
 TSMP.PanelOutput = PanelOutput;

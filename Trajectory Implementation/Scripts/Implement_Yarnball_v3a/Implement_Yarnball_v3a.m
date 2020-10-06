@@ -163,7 +163,7 @@ end
 %--------------------------------------------
 % Return
 %--------------------------------------------
-name = inputdlg('Name Implementation:','Name',1,{name});
+name = inputdlg('Name Implementation:','Name',[1 60],{name});
 if isempty(name)
     SCRPTGBL.RWSUI.SaveGlobal = 'no';
     return

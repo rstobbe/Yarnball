@@ -16,7 +16,7 @@ err.msg = '';
 % Return Panel Input
 %---------------------------------------------
 TSMP.method = TSMPipt.Func;
-TSMP.minbaseoversamp = str2double(TSMPipt.('OverSamp'));
+TSMP.minbaseoversamp = str2double(TSMPipt.('MinBandPassOSamp'));
 TSMP.sysoversamp = 1.25;
 
 Status2('done','',2);
