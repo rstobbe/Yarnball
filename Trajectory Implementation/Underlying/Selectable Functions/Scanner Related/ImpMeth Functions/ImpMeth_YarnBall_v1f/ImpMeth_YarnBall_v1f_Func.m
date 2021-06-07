@@ -195,8 +195,10 @@ if strcmp(TST.testing,'Yes')
 %         INPUT.PSMP.theta = [0,0,0,0];
 %         INPUT.PSMP.phi = pi*(0:19)/20;
 %         INPUT.PSMP.theta = zeros(1,20);
-        INPUT.PSMP.phi = [pi*(0:4)/5 pi*(0:4)/5 pi*(0:4)/5 pi*(0:4)/5 pi*(0:4)/5];
-        INPUT.PSMP.theta = [zeros(1,5) (pi/5)*ones(1,5) (2*pi/5)*ones(1,5) (3*pi/5)*ones(1,5) (4*pi/5)*ones(1,5)];
+%         INPUT.PSMP.phi = [pi*(0:4)/5 pi*(0:4)/5 pi*(0:4)/5 pi*(0:4)/5 pi*(0:4)/5];
+%         INPUT.PSMP.theta = [zeros(1,5) (pi/5)*ones(1,5) (2*pi/5)*ones(1,5) (3*pi/5)*ones(1,5) (4*pi/5)*ones(1,5)];
+        INPUT.PSMP.phi = [pi*(0:6)/7 pi*(0:6)/7 pi*(0:6)/7 pi*(0:6)/7 pi*(0:6)/7 pi*(0:6)/7 pi*(0:6)/7];
+        INPUT.PSMP.theta = [zeros(1,7) (pi/7)*ones(1,7) (2*pi/7)*ones(1,7) (3*pi/7)*ones(1,7) (4*pi/7)*ones(1,7) (5*pi/7)*ones(1,7) (6*pi/7)*ones(1,7)];
     else
         INPUT.PSMP = PSMP;
         INPUT.PSMP.phi = PSMP.phi(TST.traj);

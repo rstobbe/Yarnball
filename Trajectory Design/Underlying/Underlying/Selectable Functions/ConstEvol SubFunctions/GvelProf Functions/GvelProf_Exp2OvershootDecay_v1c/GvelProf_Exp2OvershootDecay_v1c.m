@@ -18,8 +18,8 @@ GVEL.method = GVELipt.Func;
 GVEL.gaccinit = 20000;
 GVEL.tau = str2double(GVELipt.('Tau'));
 GVEL.startfrac = str2double(GVELipt.('Overshoot'));
-GVEL.decayrate = str2double(GVELipt.('OvershootDecay'));
-GVEL.decayshift = str2double(GVELipt.('DecayShift'));
-GVEL.enddrop = str2double(GVELipt.('EndDrop'));
+GVEL.decayrate = str2double(GVELipt.('OshootDecayRate'));
+GVEL.decayshift = str2double(GVELipt.('OshootDecayShiftFrac'));
+GVEL.enddrop = str2double(GVELipt.('EndDropRate'));
 
 Status2('done','',3);

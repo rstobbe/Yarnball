@@ -16,17 +16,17 @@ default{m,1}.entrystr = '1.4';
 
 m = m+1;
 default{m,1}.entrytype = 'Input';
-default{m,1}.labelstr = 'OvershootDecay';
-default{m,1}.entrystr = '30';
+default{m,1}.labelstr = 'OshootDecayRate';
+default{m,1}.entrystr = '0.17';
 
 m = m+1;
 default{m,1}.entrytype = 'Input';
-default{m,1}.labelstr = 'DecayShift';
-default{m,1}.entrystr = '0.5';
+default{m,1}.labelstr = 'OshootDecayShiftFrac';
+default{m,1}.entrystr = '0.2';
 
 m = m+1;
 default{m,1}.entrytype = 'Input';
-default{m,1}.labelstr = 'EndDrop';
+default{m,1}.labelstr = 'EndDropRate';
 default{m,1}.entrystr = '0.10';
 
 
