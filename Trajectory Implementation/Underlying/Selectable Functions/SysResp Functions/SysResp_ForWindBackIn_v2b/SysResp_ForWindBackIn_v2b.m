@@ -145,7 +145,7 @@ function err = Compensate(SYSRESP,qT0,qkSpace0,CompDurPastGrad,DESTYPE,IMPMETH)
         %---------------------------------------------
         % Calculate Error
         %---------------------------------------------   
-        GradFilt = GradFilt(:,backup+1:end,:);
+        GradFilt = GradFilt(:,backup+1:end,:);                                              % advance to undo regression delay...
         [qkSpaceFilt,~] = ReSampleKSpace_v7a(GradFilt,TimeFilt,qTReg,NUC.gamma);
         qkSpaceErr = qkSpaceFilt - qkSpaceReg0;
 

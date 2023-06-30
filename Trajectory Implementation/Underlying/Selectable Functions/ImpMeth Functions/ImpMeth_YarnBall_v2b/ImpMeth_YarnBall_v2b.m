@@ -206,6 +206,8 @@ function err = Implement(IMPMETH,DES)
             plot(IMPMETH.KINFO(n).SamplingTimeOnTrajectory,IMPMETH.KINFO(n).kSpace(1,:,2),'g')
             plot(IMPMETH.KINFO(n).SamplingTimeOnTrajectory,IMPMETH.KINFO(n).kSpace(1,:,3),'r')
             plot(IMPMETH.KINFO(n).SamplingTimeOnTrajectory,zeros(size(IMPMETH.KINFO(n).SamplingTimeOnTrajectory)),'k:');
+            MagKspace = sqrt(IMPMETH.KINFO(n).kSpace(1,:,1).^2 + IMPMETH.KINFO(n).kSpace(1,:,2).^2 + IMPMETH(n).KINFO.kSpace(1,:,3).^2);
+            plot(IMPMETH.KINFO(n).SamplingTimeOnTrajectory,MagKspace,'k');
         end
         xlabel('ms')
         ylabel('1/m');
@@ -222,7 +224,8 @@ function err = Implement(IMPMETH,DES)
         ind = ind+1;
     end
     %IMPMETH.Panel = [Panel0;IMPMETH.FINMETH.Panel;IMPMETH.TSMP.Panel;IMPMETH.KSMP.Panel]; 
-    IMPMETH.Panel = [Panel0;DESTYPE.Panel;Panel1]; 
+    IMPMETH.Panel = [Panel0;DESTYPE.Panel;IMPMETH.TSMP.Panel;Panel1]; 
+    %IMPMETH.Panel = [Panel0;DESTYPE.Panel;Panel1]; 
     IMPMETH.PanelOutput = cell2struct(IMPMETH.Panel,{'label','value','type'},2);
     IMPMETH.ExpDisp = PanelStruct2Text(IMPMETH.PanelOutput);
     IMPMETH.ExpDisp = [newline IMPMETH.ExpDisp];

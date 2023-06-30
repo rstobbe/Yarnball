@@ -1,12 +1,12 @@
 %==================================================================
-% (v2c)
-%       - Matching 'YarnBallSingleEchoInOut_v2c'
+% (v2f)
+%       - Centre Delay -> Input
 %==================================================================
 
-classdef DesType_YarnBallSingleEchoInOut_v2c < handle
+classdef DesType_YarnBallSingleEchoInOutSep_v2f < handle
 
 properties (SetAccess = private)                   
-    Method = 'DesType_YarnBallSingleEchoInOut_v2c'
+    Method = 'DesType_YarnBallSingleEchoInOutSep_v2f'
     Name
     Panel
     DESTYPEipt
@@ -14,7 +14,8 @@ properties (SetAccess = private)
     GenProjFunc
     ElipFunc
     SpinFunc
-    RadAccFunc
+    RadAccTFunc
+    RadAccPFunc
     ProjSampFunc
     OrientFunc
     Fov
@@ -26,6 +27,7 @@ properties (SetAccess = private)
     RphsTurnSlope
     RphsTurnEnd
     RphsTro
+    CenDel
     SamplingTro
     TURNEVO
     GENPRJ
@@ -34,7 +36,8 @@ properties (SetAccess = private)
     KINFO
     SPIN
     ELIP
-    RADACC
+    RADACCT
+    RADACCP
     PSMP
     ORNT
     SYS
@@ -53,8 +56,8 @@ methods
 %==================================================================
 % Constructor
 %==================================================================  
-function DESTYPE = DesType_YarnBallSingleEchoInOut_v2c(DESTYPEipt)
-
+function DESTYPE = DesType_YarnBallSingleEchoInOutSep_v2f(DESTYPEipt)
+   
     %---------------------------------------------
     % Load Panel Input
     %---------------------------------------------
@@ -67,14 +70,15 @@ function DESTYPE = DesType_YarnBallSingleEchoInOut_v2c(DESTYPEipt)
     DESTYPE.GenProjFunc = DESTYPEipt.('GenProjfunc').Func;
     DESTYPE.ElipFunc = DESTYPEipt.('Elipfunc').Func;
     DESTYPE.SpinFunc = DESTYPEipt.('Spinfunc').Func;
-    DESTYPE.RadAccFunc = DESTYPEipt.('RadialAccfunc').Func;
+    DESTYPE.RadAccTFunc = DESTYPEipt.('RadialAccTfunc').Func;
+    DESTYPE.RadAccPFunc = DESTYPEipt.('RadialAccPfunc').Func;
     DESTYPE.TurnEvolutionFunc = DESTYPEipt.('TurnEvolutionfunc').Func;
-    DESTYPE.ProjSampFunc = DESTYPEipt.('ProjSampfunc').Func;
     DESTYPE.OrientFunc = DESTYPEipt.('Orientfunc').Func;
     DESTYPE.RphsTurnSlope = str2double(DESTYPEipt.('RphsTurnSlope'));
     DESTYPE.RphsTurnEnd = str2double(DESTYPEipt.('RphsTurnEnd'));
     DESTYPE.RphsTro = str2double(DESTYPEipt.('RphsTro'));
-
+    DESTYPE.CenDel = str2double(DESTYPEipt.('CenDel'));    
+    
     %---------------------------------------------
     % Get Working Structures from Sub Functions
     %---------------------------------------------
@@ -94,13 +98,13 @@ function DESTYPE = DesType_YarnBallSingleEchoInOut_v2c(DESTYPEipt)
     if isfield(DESTYPEipt,('Spinfunc_Data'))
         SPINipt.Spinfunc_Data = DESTYPEipt.Spinfunc_Data;
     end
-    RADACCipt = DESTYPEipt.('RadialAccfunc');
-    if isfield(DESTYPEipt,('RadialAccfunc_Data'))
-        RADACCipt.RadialAccfunc_Data = DESTYPEipt.RadialAccfunc_Data;
+    RADACCTipt = DESTYPEipt.('RadialAccTfunc');
+    if isfield(DESTYPEipt,('RadialAccTfunc_Data'))
+        RADACCTipt.RadialAccTfunc_Data = DESTYPEipt.RadialAccTfunc_Data;
     end
-    PSMPipt = DESTYPEipt.('ProjSampfunc');
-    if isfield(DESTYPEipt,('ProjSampfunc_Data'))
-        PSMPipt.ProjSampfunc_Data = DESTYPEipt.ProjSampfunc_Data;
+    RADACCPipt = DESTYPEipt.('RadialAccPfunc');
+    if isfield(DESTYPEipt,('RadialAccPfunc_Data'))
+        RADACCPipt.RadialAccPfunc_Data = DESTYPEipt.RadialAccPfunc_Data;
     end
     ORNTipt = DESTYPEipt.('Orientfunc');
     if isfield(DESTYPEipt,('Orientfunc_Data'))
@@ -116,20 +120,24 @@ function DESTYPE = DesType_YarnBallSingleEchoInOut_v2c(DESTYPEipt)
     DESTYPE.SPIN = func(SPINipt);
     func = str2func(DESTYPE.ElipFunc);           
     DESTYPE.ELIP = func(ELIPipt);
-    func = str2func(DESTYPE.RadAccFunc);                   
-    DESTYPE.RADACC = func(RADACCipt);     
+    func = str2func(DESTYPE.RadAccTFunc);                   
+    DESTYPE.RADACCT = func(); 
+    DESTYPE.RADACCT.InitViaCompass(RADACCTipt);
+    func = str2func(DESTYPE.RadAccPFunc);   
+    DESTYPE.RADACCP = func(); 
+    DESTYPE.RADACCP.InitViaCompass(RADACCPipt);
     func = str2func(DESTYPE.TurnEvolutionFunc);
     DESTYPE.TURNEVO = func(TURNEVOipt);
-    func = str2func(DESTYPE.ProjSampFunc);
-    DESTYPE.PSMP = func(PSMPipt);
     func = str2func(DESTYPE.OrientFunc);
     DESTYPE.ORNT = func(ORNTipt);
     func = str2func('CalcEvoDiffs_Simple_v2b');           
     DESTYPE.CALCEVO = func('');
     func = str2func('Gradient_Calculations_v2a');           
     DESTYPE.GRAD = func('');
-    func = str2func('kSpaceInfo_BasicHolder_v2a');           
+    func = str2func('kSpaceInfo_BasicHolder_v2b');           
     DESTYPE.KINFO = func('');
+    func = str2func('ProjSamp_Standard_v2a');
+    DESTYPE.PSMP = func('');
 end
 
 %==================================================================
@@ -153,8 +161,10 @@ function Initialize(DESTYPE,SYS,NUC)
     SPINipt = DESTYPE.SPIN.SPINipt;
     ELIPfunc = str2func(DESTYPE.ELIP.Method);
     ELIPipt = DESTYPE.ELIP.ELIPipt;
-    RADACCfunc = str2func(DESTYPE.RADACC.Method);
-    RADACCipt = DESTYPE.RADACC.RADACCipt;
+    RADACCTfunc = str2func(DESTYPE.RADACCT.Method);
+    RADACCPfunc = str2func(DESTYPE.RADACCP.Method);
+    RADACCTipt = DESTYPE.RADACCT.RADACCipt;
+    RADACCPipt = DESTYPE.RADACCP.RADACCipt;
     CALCEVOfunc = str2func(DESTYPE.CALCEVO.Method);
     CALCEVOipt = DESTYPE.CALCEVO.CALCEVOipt;
     TURNEVOfunc = str2func(DESTYPE.TURNEVO.Method);
@@ -164,10 +174,15 @@ function Initialize(DESTYPE,SYS,NUC)
     % Define k-Space info 
     %   (Out/In the same)
     %---------------------------------------------
-    DESTYPE.KINFO(1).SetFov(DESTYPE.Fov);
-    DESTYPE.KINFO(1).SetVox(DESTYPE.Vox);
-    DESTYPE.KINFO(1).SetElip(DESTYPE.ELIP.Elip);
-    DESTYPE.KINFO(1).SetYbAxisElip(DESTYPE.ELIP.YbAxisElip);
+    func = str2func('kSpaceInfo_BasicHolder_v2b');  
+    DESTYPE.NumEchos = 2;
+    for n = 1:DESTYPE.NumEchos 
+        DESTYPE.KINFO(n) = func('');
+        DESTYPE.KINFO(n).SetFov(DESTYPE.Fov);
+        DESTYPE.KINFO(n).SetVox(DESTYPE.Vox);
+        DESTYPE.KINFO(n).SetElip(DESTYPE.ELIP.Elip);
+        DESTYPE.KINFO(n).SetYbAxisElip(DESTYPE.ELIP.YbAxisElip);
+    end
 
     %---------------------------------------------
     % Prephase Trajectory
@@ -185,7 +200,7 @@ function Initialize(DESTYPE,SYS,NUC)
     DESTYPE.GENPRJ(1).SetTurnEvo(TURNEVOfunc,TURNEVOipt);
     DESTYPE.GENPRJ(1).TURNEVO.SetSlope(DESTYPE.RphsTurnSlope);
     DESTYPE.GENPRJ(1).TURNEVO.SetEnd(DESTYPE.RphsTurnEnd);
-    DESTYPE.GENPRJ(1).SetRadAcc(RADACCfunc,RADACCipt);
+    DESTYPE.GENPRJ(1).SetRadAcc(RADACCPfunc,RADACCPipt);
     DESTYPE.GENPRJ(1).SetCalcEvo(CALCEVOfunc,CALCEVOipt);
     DESTYPE.GENPRJ(1).Initialize;  
 
@@ -204,20 +219,25 @@ function Initialize(DESTYPE,SYS,NUC)
     DESTYPE.GENPRJ(2).SetTurnEvo(TURNEVOfunc,TURNEVOipt);
     DESTYPE.GENPRJ(2).TURNEVO.SetSlope(DESTYPE.TrajTurnSlope);
     DESTYPE.GENPRJ(2).TURNEVO.SetEnd(DESTYPE.TrajTurnEnd);
-    DESTYPE.GENPRJ(2).SetRadAcc(RADACCfunc,RADACCipt);
+    DESTYPE.GENPRJ(2).SetRadAcc(RADACCTfunc,RADACCTipt);
     DESTYPE.GENPRJ(2).SetCalcEvo(CALCEVOfunc,CALCEVOipt);
     DESTYPE.GENPRJ(2).Initialize;  
 
     %---------------------------------------------
     % Update k-Space info 
     %---------------------------------------------
-    DESTYPE.KINFO(1).SetNproj(DESTYPE.GENPRJ(1).SPIN.NumProj/2);
+    DESTYPE.KINFO(1).SetNproj(DESTYPE.GENPRJ(1).SPIN.NumProj);        
     DESTYPE.KINFO(1).SetDesignSamplingTimeStart(DESTYPE.RphsTro + DESTYPE.GradTimeQuant);
-    DESTYPE.KINFO(1).SetDesignSamplingTimeToCentre(DESTYPE.RphsTro + DESTYPE.GradTimeQuant + DESTYPE.Tro + DESTYPE.GradTimeQuant/2);
-    DESTYPE.KINFO(1).SetDesignTro(2*DESTYPE.Tro + DESTYPE.GradTimeQuant);
-    DESTYPE.SamplingTro = 2*DESTYPE.Tro + 2*DESTYPE.RphsTro + 3*DESTYPE.GradTimeQuant;
-    DESTYPE.NumEchos = 1;
-    
+    DESTYPE.KINFO(1).SetDesignSamplingTimeToCentre(DESTYPE.RphsTro + DESTYPE.GradTimeQuant + DESTYPE.Tro);
+    DESTYPE.KINFO(1).SetDesignTro(DESTYPE.Tro);
+    %--
+    DESTYPE.KINFO(2).SetNproj(DESTYPE.GENPRJ(1).SPIN.NumProj);        
+    DESTYPE.KINFO(2).SetDesignSamplingTimeStart(DESTYPE.RphsTro + DESTYPE.GradTimeQuant + DESTYPE.Tro + (1+DESTYPE.CenDel)*DESTYPE.GradTimeQuant);
+    DESTYPE.KINFO(2).SetDesignSamplingTimeToCentre(DESTYPE.RphsTro + DESTYPE.GradTimeQuant + DESTYPE.Tro + (1+DESTYPE.CenDel)*DESTYPE.GradTimeQuant);
+    DESTYPE.KINFO(2).SetDesignTro(DESTYPE.Tro);
+    %--
+    DESTYPE.SamplingTro = 2*DESTYPE.Tro + 2*DESTYPE.RphsTro + (3+DESTYPE.CenDel)*DESTYPE.GradTimeQuant;
+ 
     %---------------------------------------------
     % Timing
     %---------------------------------------------
@@ -231,7 +251,9 @@ function rkSpaceOut = Build(DESTYPE,InitYB)
     [rkSpace1,EndYB,~] = DESTYPE.GENPRJ(1).SolveTraj(InitYB);
     InitYB = EndYB - DESTYPE.GENPRJ(2).EvolveYB;
     [rkSpace2,EndYB,~] = DESTYPE.GENPRJ(2).SolveTraj(InitYB);
-    rkSpaceOut0 = cat(2,rkSpace1,flip(rkSpace2,2),-rkSpace2,flip(-rkSpace1,2));
+    sz = size(InitYB);
+    CenZero = zeros(sz(1),DESTYPE.CenDel,3);
+    rkSpaceOut0 = cat(2,rkSpace1,flip(rkSpace2,2),CenZero,-rkSpace2,flip(-rkSpace1,2));
     rkSpaceOut = DESTYPE.ORNT.Orient(rkSpaceOut0,DESTYPE.SYS,DESTYPE.GENPRJ(1).ELIP,DESTYPE.KINFO(1));
 end    
 
@@ -254,7 +276,7 @@ end
 %==================================================================
 % Test
 %==================================================================
-function Test(DESTYPE)
+function Figure = Test(DESTYPE)
 
     %---------------------------------------------
     % Create test waveform
@@ -327,6 +349,11 @@ function Test(DESTYPE)
     xlim([0 DESTYPE.SolutionTiming(end)]);
     xlabel('ms')
     ylabel('mT/m/ms/ms');
+
+    Figure(1).Name = 'Test Waveform';
+    Figure(1).Type = 'Graph';
+    Figure(1).hFig = fh;
+    Figure(1).hAx = gca;    
     
     %--------------------------------------------
     % Name
@@ -336,7 +363,7 @@ function Test(DESTYPE)
     selip = num2str(100*DESTYPE.KINFO(1).Elip,'%03.0f');
     stro = num2str(10*DESTYPE.KINFO(1).DesignTro,'%03.0f');
     snproj = num2str(DESTYPE.KINFO(1).nproj,'%4.0f');
-    DESTYPE.Name = ['DES_F',sfov,'_V',svox,'_E',selip,'_T',stro,'_N',snproj,'_S',DESTYPE.GENPRJ(2).SPIN.name,'_CIO']; 
+    DESTYPE.Name = ['DES_F',sfov,'_V',svox,'_E',selip,'_T',stro,'_N',snproj,'_S',DESTYPE.GENPRJ(2).SPIN.name,'_1IOS']; 
     
     %--------------------------------------------
     % Panel

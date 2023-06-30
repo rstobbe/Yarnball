@@ -17,6 +17,7 @@ properties (SetAccess = private)
     Panel
     PanelOutput
     ExpDisp
+    Figure
 end
 properties (SetAccess = public)    
     name
@@ -73,7 +74,7 @@ function err = DesignYarnball(DESMETH)
     err.flag = 0;
     err.msg = '';
     DESMETH.DESTYPE.Initialize(DESMETH.SYS,DESMETH.NUC);
-    DESMETH.DESTYPE.Test;
+    DESMETH.Figure = DESMETH.DESTYPE.Test;
     DESMETH.Panel = DESMETH.DESTYPE.Panel;
     DESMETH.PanelOutput = cell2struct(DESMETH.Panel,{'label','value','type'},2);
     DESMETH.ExpDisp = PanelStruct2Text(DESMETH.PanelOutput);

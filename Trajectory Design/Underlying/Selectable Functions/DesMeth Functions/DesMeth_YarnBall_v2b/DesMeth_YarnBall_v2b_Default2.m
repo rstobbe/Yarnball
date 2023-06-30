@@ -10,9 +10,9 @@ if strcmp(filesep,'\')
     Syspath = [SCRPTPATHS.pioneerloc,'Trajectory Implementation\Underlying\Selectable Functions\Scanner Related\Sys Functions\'];
 elseif strcmp(filesep,'/')
 end
-destypefunc = 'DesType_YarnBallOutRphsSingleEcho_v2c';
-Nucfunc = 'H1_v1a';
-Sysfunc = 'Sys_SiemensPrisma_v1a';
+destypefunc = 'DesType_YarnBallSingleEchoOut_v2f';
+Nucfunc = 'H1_v2a';
+Sysfunc = 'Sys_SiemensPrisma_v2a';
 
 m = 1;
 default{m,1}.entrytype = 'ScrptFunc';
